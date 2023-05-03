@@ -43,3 +43,5 @@ raw/*
 !raw/README.md
 data/*
 !data/README.md
+output/*
+.DS_Store

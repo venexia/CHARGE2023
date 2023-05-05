@@ -1,1 +1,1 @@
-This directory contains the code for this project.
+This directory contains the code for the practicals.

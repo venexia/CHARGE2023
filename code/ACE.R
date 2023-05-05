@@ -22,7 +22,7 @@ results <- NULL
 sbp_gwas <- fread("data/sbp_subset.csv")
 
 # Download the outcome data - de Rojas et al. 2020 Alzhemier's GWAS
-alz_gwas <- fread("data/alz_subset.csv", sep=',')
+alz_gwas <- fread("data/alz_subset.csv")
 
 # Format data for TwoSampleMR package ------------------------------------------
 

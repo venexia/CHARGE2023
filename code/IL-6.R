@@ -90,7 +90,7 @@ cad_gwas$outcome <- "Coronary artery disease"
 il6r_cad_harmonised <- harmonise_data(il6r, cad_gwas)
 
 # Perform MR analysis
-il6r_cad_results <- mr(il6r_cad_harmonised, method_list=c("mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
+il6r_cad_results <- mr(il6r_cad_harmonised, method_list=c("mr_ivw","mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
 
 # Multiply by -1 to represent a decrease in SBP and exponentiate the MR estimate to get the odds ratio 
 il6r_cad_results$est <- exp(il6r_cad_results$b)
@@ -118,9 +118,13 @@ ais_gwas <- read_outcome_data(
   effect_allele_col = "EA",
   other_allele_col = 'NEA',
   pval_col = "P")
+ais_gwas$outcome <- "Acute ischaemic stroke"
 
 # Harmonise exposure and outcome data
 il6r_ais_harmonised <- harmonise_data(il6r, ais_gwas)
+
+# Perform MR analysis
+il6r_ais_results <- mr(il6r_ais_harmonised, method_list=c("mr_ivw","mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
 
 # Multiply by -1 to represent a decrease in SBP and exponentiate the MR estimate to get the odds ratio 
 il6r_ais_results$est <- exp(il6r_ais_results$b)
@@ -154,7 +158,7 @@ ces_gwas$outcome <- "Cardioembolic stroke"
 il6r_ces_harmonised <- harmonise_data(il6r, ces_gwas)
 
 # Perform MR analysis
-il6r_ces_results <- mr(il6r_ces_harmonised, method_list=c("mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
+il6r_ces_results <- mr(il6r_ces_harmonised, method_list=c("mr_ivw","mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
 
 # Multiply by -1 to represent a decrease in SBP and exponentiate the MR estimate to get the odds ratio 
 il6r_ces_results$est <- exp(il6r_ces_results$b)
@@ -170,7 +174,41 @@ il6r_ces_results[,c("exposure","outcome","method","nsnp","est","est_lci","est_uc
 il6r_ces_results$est_type <- "OR"
 results <- rbind(results, il6r_ces_results)
 
-# Analysis 4: IL-6R > Any stroke -----------------------------------
+# Analysis 4: IL-6R > Large artery stroke --------------------------------------
+
+# Load outcome data
+las_gwas <- read_outcome_data(
+  filename = "data/las_subset.csv",
+  sep = ",",
+  snp_col = "SNP",
+  beta_col = "BETA",
+  se_col = "SE",
+  effect_allele_col = "EA",
+  other_allele_col = 'NEA',
+  pval_col = "P")
+las_gwas$outcome <- "Large artery stroke"
+
+# Harmonise exposure and outcome data
+il6r_las_harmonised <- harmonise_data(il6r, las_gwas)
+
+# Perform MR analysis
+il6r_las_results <- mr(il6r_las_harmonised, method_list=c("mr_ivw","mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
+
+# Multiply by -1 to represent a decrease in SBP and exponentiate the MR estimate to get the odds ratio 
+il6r_las_results$est <- exp(il6r_las_results$b)
+
+# Calculate confidence interval 
+il6r_las_results$est_lci <- exp(il6r_las_results$b - qnorm(0.975)*il6r_las_results$se)
+il6r_las_results$est_uci <- exp(il6r_las_results$b + qnorm(0.975)*il6r_las_results$se)
+
+# Display results
+il6r_las_results[,c("exposure","outcome","method","nsnp","est","est_lci","est_uci","pval")]
+
+# Add results to table
+il6r_las_results$est_type <- "OR"
+results <- rbind(results, il6r_las_results)
+
+# Analysis 5: IL-6R > Any stroke -----------------------------------
 
 # Load outcome data
 as_gwas <- read_outcome_data(
@@ -188,7 +226,7 @@ as_gwas$outcome <- "Any stroke"
 il6r_as_harmonised <- harmonise_data(il6r, as_gwas)
 
 # Perform MR analysis
-il6r_as_results <- mr(il6r_as_harmonised, method_list=c("mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
+il6r_as_results <- mr(il6r_as_harmonised, method_list=c("mr_ivw","mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
 
 # Multiply by -1 to represent a decrease in SBP and exponentiate the MR estimate to get the odds ratio 
 il6r_as_results$est <- exp(il6r_as_results$b)
@@ -204,26 +242,28 @@ il6r_as_results[,c("exposure","outcome","method","nsnp","est","est_lci","est_uci
 il6r_as_results$est_type <- "OR"
 results <- rbind(results, il6r_as_results)
 
-# Analysis 5: IL-6R > Chronic kidney disease -----------------------------------
+# Analysis 6: IL-6R > Chronic kidney disease -----------------------------------
 
 # Load outcome data
-ckd_gwas <-read_outcome_data(
+ckd_gwas <- read_outcome_data(
   filename = "data/ckd_subset.csv",
   sep = ",",
-  snp_col = "SNP",
-  beta_col = "BETA",
-  se_col = "SE",
-  effect_allele_col = "EA",
-  other_allele_col = 'NEA',
-  eaf_col = "EAF",
-  pval_col = "P")
+  snp_col = "RSID",
+  beta_col = "Effect",
+  se_col = "StdErr",
+  effect_allele_col = "Allele1",
+  other_allele_col = 'Allele2',
+  eaf_col = "Freq1",
+  pval_col = "P-value",
+  chr_col = "Chr",
+  pos_col = "Pos_b37")
 ckd_gwas$outcome <- "Chronic kidney disease"
 
 # Harmonise exposure and outcome data
 il6r_ckd_harmonised <- harmonise_data(il6r, ckd_gwas)
 
 # Perform MR analysis
-il6r_ckd_results <- mr(il6r_ckd_harmonised, method_list=c("mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
+il6r_ckd_results <- mr(il6r_ckd_harmonised, method_list=c("mr_ivw","mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
 
 # Multiply by -1 to represent a decrease in SBP and exponentiate the MR estimate to get the odds ratio 
 il6r_ckd_results$est <- exp(il6r_ckd_results$b)
@@ -239,26 +279,28 @@ il6r_ckd_results[,c("exposure","outcome","method","nsnp","est","est_lci","est_uc
 il6r_ckd_results$est_type <- "OR"
 results <- rbind(results, il6r_ckd_results)
 
-# Analysis 6: IL-6R > eGFR -----------------------------------------------------
+# Analysis 7: IL-6R > eGFR -----------------------------------------------------
 
 # Load outcome data
-egfr_gwas <-read_outcome_data(
+egfr_gwas <- read_outcome_data(
   filename = "data/egfr_subset.csv",
   sep = ",",
-  snp_col = "SNP",
-  beta_col = "BETA",
-  se_col = "SE",
-  effect_allele_col = "EA",
-  other_allele_col = 'NEA',
-  eaf_col = "EAF",
-  pval_col = "P")
+  snp_col = "RSID",
+  beta_col = "Effect",
+  se_col = "StdErr",
+  effect_allele_col = "Allele1",
+  other_allele_col = 'Allele2',
+  eaf_col = "Freq1",
+  pval_col = "P-value",
+  chr_col = "Chr",
+  pos_col = "Pos_b37")
 egfr_gwas$outcome <- "eGFR"
 
 # Harmonise exposure and outcome data
 il6r_egfr_harmonised <- harmonise_data(il6r, egfr_gwas)
 
 # Perform MR analysis
-il6r_egfr_results <- mr(il6r_egfr_harmonised, method_list=c("mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
+il6r_egfr_results <- mr(il6r_egfr_harmonised, method_list=c("mr_ivw","mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
 
 # Continuous outcome so beta is our final estimate
 il6r_egfr_results$est <- il6r_egfr_results$b
@@ -277,23 +319,25 @@ results <- rbind(results, il6r_egfr_results)
 # Analysis 7: IL-6R > Blood urea nitrogen -----------------------------------
 
 # Load outcome data
-bun_gwas <-read_outcome_data(
+bun_gwas <- read_outcome_data(
   filename = "data/bun_subset.csv",
   sep = ",",
-  snp_col = "SNP",
-  beta_col = "BETA",
-  se_col = "SE",
-  effect_allele_col = "EA",
-  other_allele_col = 'NEA',
-  eaf_col = "EAF",
-  pval_col = "P")
+  snp_col = "RSID",
+  beta_col = "Effect",
+  se_col = "StdErr",
+  effect_allele_col = "Allele1",
+  other_allele_col = 'Allele2',
+  eaf_col = "Freq1",
+  pval_col = "P-value",
+  chr_col = "Chr",
+  pos_col = "Pos_b37")
 bun_gwas$outcome <- "Blood urea nitrogen"
 
 # Harmonise exposure and outcome data
 il6r_bun_harmonised <- harmonise_data(il6r, bun_gwas)
 
 # Perform MR analysis
-il6r_bun_results <- mr(il6r_bun_harmonised, method_list=c("mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
+il6r_bun_results <- mr(il6r_bun_harmonised, method_list=c("mr_ivw","mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
 
 # Continuous outcome so beta is our final estimate
 il6r_bun_results$est <- il6r_bun_results$b

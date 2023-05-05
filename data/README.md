@@ -1,1 +1,1 @@
-This directory contains the processed data for this project.
+Warning: These data are a subset of the original genome-wide association study summary statistics that they were derived from. They are suitable for this practical but should not be used for actual analyses.

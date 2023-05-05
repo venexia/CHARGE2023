@@ -1,1 +1,1 @@
-This directory contains the output for this project.
+The output from the practicals will save here by default.

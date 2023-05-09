@@ -1,0 +1,11 @@
+SNP,chr.exposure,pos.exposure,other_allele.exposure,effect_allele.exposure,eaf.exposure,beta.exposure,se.exposure,pval.exposure,exposure,mr_keep.exposure,pval_origin.exposure,id.exposure
+rs16835819,1,154108501,T,C,0.018318,-0.077323,0.0089868,7.7258e-18,C-reactive protein,TRUE,reported,nxI2qw
+rs61806853,1,154154587,T,C,0.049831,-0.043505,0.0054886,2.2636e-15,C-reactive protein,TRUE,reported,nxI2qw
+rs181286371,1,154219043,A,G,0.013578,-0.10015,0.010625,4.2777e-21,C-reactive protein,TRUE,reported,nxI2qw
+rs115165870,1,154303228,G,A,0.040905,0.041527,0.0060334,5.88e-12,C-reactive protein,TRUE,reported,nxI2qw
+rs12077265,1,154359915,T,G,0.15486,-0.055967,0.0033147,6.2405e-64,C-reactive protein,TRUE,reported,nxI2qw
+rs4133213,1,154395212,C,A,0.44981,-0.08569,0.0024514,1e-200,C-reactive protein,TRUE,reported,nxI2qw
+rs139460294,1,154443269,T,C,0.015747,-0.058492,0.0099722,4.4809e-09,C-reactive protein,TRUE,reported,nxI2qw
+rs147483024,1,154540865,G,T,0.018268,0.065816,0.0096101,7.4714e-12,C-reactive protein,TRUE,reported,nxI2qw
+rs60517797,1,154642224,T,C,0.080708,0.031743,0.0043852,4.5439e-13,C-reactive protein,TRUE,reported,nxI2qw
+rs12757447,1,154642609,T,G,0.015723,-0.06315,0.0098477,1.4321e-10,C-reactive protein,TRUE,reported,nxI2qw

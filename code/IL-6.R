@@ -68,6 +68,11 @@ il6r <- clump_data(
   clump_r2 = 0.01,
   pop = "EUR")
 
+data.table::fwrite(il6r,"data/il6r_clumped.csv", row.names = FALSE)
+
+# If you have to wifi, please read in this already clumped data instead
+# il6r <- data.table::fread("data/il6r_clumped.csv")
+
 # How many SNPs are in our instrument? 
 length(unique(il6r$SNP))
 
@@ -92,7 +97,7 @@ il6r_cad_harmonised <- harmonise_data(il6r, cad_gwas)
 # Perform MR analysis
 il6r_cad_results <- mr(il6r_cad_harmonised, method_list=c("mr_ivw","mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
 
-# Multiply by -1 to represent a decrease in SBP and exponentiate the MR estimate to get the odds ratio 
+# Exponentiate the MR estimate to get the odds ratio 
 il6r_cad_results$est <- exp(il6r_cad_results$b)
 
 # Calculate confidence interval 
@@ -126,7 +131,7 @@ il6r_ais_harmonised <- harmonise_data(il6r, ais_gwas)
 # Perform MR analysis
 il6r_ais_results <- mr(il6r_ais_harmonised, method_list=c("mr_ivw","mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
 
-# Multiply by -1 to represent a decrease in SBP and exponentiate the MR estimate to get the odds ratio 
+# Exponentiate the MR estimate to get the odds ratio 
 il6r_ais_results$est <- exp(il6r_ais_results$b)
 
 # Calculate confidence interval 
@@ -160,7 +165,7 @@ il6r_ces_harmonised <- harmonise_data(il6r, ces_gwas)
 # Perform MR analysis
 il6r_ces_results <- mr(il6r_ces_harmonised, method_list=c("mr_ivw","mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
 
-# Multiply by -1 to represent a decrease in SBP and exponentiate the MR estimate to get the odds ratio 
+# Exponentiate the MR estimate to get the odds ratio 
 il6r_ces_results$est <- exp(il6r_ces_results$b)
 
 # Calculate confidence interval 
@@ -194,7 +199,7 @@ il6r_las_harmonised <- harmonise_data(il6r, las_gwas)
 # Perform MR analysis
 il6r_las_results <- mr(il6r_las_harmonised, method_list=c("mr_ivw","mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
 
-# Multiply by -1 to represent a decrease in SBP and exponentiate the MR estimate to get the odds ratio 
+# Exponentiate the MR estimate to get the odds ratio 
 il6r_las_results$est <- exp(il6r_las_results$b)
 
 # Calculate confidence interval 
@@ -208,7 +213,7 @@ il6r_las_results[,c("exposure","outcome","method","nsnp","est","est_lci","est_uc
 il6r_las_results$est_type <- "OR"
 results <- rbind(results, il6r_las_results)
 
-# Analysis 5: IL-6R > Any stroke -----------------------------------
+# Analysis 5: IL-6R > Any stroke -----------------------------------------------
 
 # Load outcome data
 as_gwas <- read_outcome_data(
@@ -228,7 +233,7 @@ il6r_as_harmonised <- harmonise_data(il6r, as_gwas)
 # Perform MR analysis
 il6r_as_results <- mr(il6r_as_harmonised, method_list=c("mr_ivw","mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
 
-# Multiply by -1 to represent a decrease in SBP and exponentiate the MR estimate to get the odds ratio 
+# Exponentiate the MR estimate to get the odds ratio 
 il6r_as_results$est <- exp(il6r_as_results$b)
 
 # Calculate confidence interval 
@@ -265,7 +270,7 @@ il6r_ckd_harmonised <- harmonise_data(il6r, ckd_gwas)
 # Perform MR analysis
 il6r_ckd_results <- mr(il6r_ckd_harmonised, method_list=c("mr_ivw","mr_simple_median", "mr_weighted_median", "mr_egger_regression", "mr_ivw_mre"))
 
-# Multiply by -1 to represent a decrease in SBP and exponentiate the MR estimate to get the odds ratio 
+# Exponentiate the MR estimate to get the odds ratio 
 il6r_ckd_results$est <- exp(il6r_ckd_results$b)
 
 # Calculate confidence interval 
@@ -316,7 +321,7 @@ il6r_egfr_results[,c("exposure","outcome","method","nsnp","est","est_lci","est_u
 il6r_egfr_results$est_type <- "Beta"
 results <- rbind(results, il6r_egfr_results)
 
-# Analysis 7: IL-6R > Blood urea nitrogen -----------------------------------
+# Analysis 7: IL-6R > Blood urea nitrogen --------------------------------------
 
 # Load outcome data
 bun_gwas <- read_outcome_data(

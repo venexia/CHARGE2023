@@ -88,6 +88,10 @@ ace <- clump_data(
   clump_kb = 10000,
   clump_r2 = 0.01,
   pop = "EUR")
+data.table::fwrite(ace,"data/ace_clumped.csv", row.names = FALSE)
+
+# If you have to wifi, please read in this already clumped data instead
+# ace <- data.table::fread("data/ace_clumped.csv")
 
 # How many SNPs are in our instrument? 
 length(unique(ace$SNP))
@@ -122,6 +126,10 @@ sbp <- clump_data(
   clump_kb = 10000,
   clump_r2 = 0.01,
   pop = "EUR")
+data.table::fwrite(sbp,"data/sbp_clumped.csv", row.names = FALSE)
+
+# If you have to wifi, please read in this already clumped data instead
+# sbp <- data.table::fread("data/sbp_clumped.csv")
 
 # How many SNPs are in our instrument? 
 length(unique(sbp$SNP))
@@ -162,6 +170,10 @@ sbp_noace <- clump_data(
   clump_r2 = 0.01,
   clump_kb = 10000,
   pop = "EUR")
+data.table::fwrite(sbp_noace,"data/sbp_noace_clumped.csv", row.names = FALSE)
+
+# If you have to wifi, please read in this already clumped data instead
+# sbp_noace <- data.table::fread("data/sbp_noace_clumped.csv")
 
 # How many SNPs are in our instrument? 
 length(unique(sbp_noace$SNP))
